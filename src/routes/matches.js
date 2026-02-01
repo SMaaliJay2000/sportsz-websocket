@@ -7,6 +7,7 @@ import { matches } from "../db/schema.js";
 import { db } from "../db/db.js";
 import { getMatchStatus } from "../utils/match-status.js";
 import { desc } from "drizzle-orm";
+import { commentaryRouter } from "./commentary.js";
 
 export const matchesRouter = Router();
 
@@ -70,6 +71,11 @@ matchesRouter.post("/", async (req, res) => {
     if (res.app.locals.broadcastMatchCreated) {
       res.app.locals.broadcastMatchCreated(event);
     }
+
+    // Alternative: Event Emitter Pattern
+    // if (res.app.locals.events) {
+    //   res.app.locals.events.emit("MATCH_CREATED", event);
+    // }
 
     res.status(201).json({ data: event });
   } catch (error) {
